@@ -15,7 +15,7 @@ export interface Booking {
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './schedules.html',
-  styleUrls: ['./schedules.css']
+  styleUrl: './schedules.css'
 })
 export class SchedulesComponent implements OnInit {
   username = 'diddy';

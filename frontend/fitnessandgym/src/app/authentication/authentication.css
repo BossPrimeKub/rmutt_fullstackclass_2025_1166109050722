@@ -1,0 +1,128 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  font-family: -apple-system, 'Helvetica Neue', sans-serif;
+}
+
+.login-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #eee;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.logo span {
+  background: #111; color: #fff;
+  border-radius: 4px; padding: 1px 5px; font-size: 14px;
+}
+
+.mode-tabs {
+  display: flex;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.mode-tabs button {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 10px 0;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+  font-family: inherit;
+}
+
+.mode-tabs button:hover  { color: #333; }
+.mode-tabs button.active { color: #111; font-weight: 500; border-bottom-color: #111; }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.form-group label { font-size: 13px; color: #555; font-weight: 500; }
+
+.form-group input {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  transition: border 0.15s;
+  font-family: inherit;
+}
+
+.form-group input:focus { border-color: #111; }
+
+.btn-submit {
+  width: 100%;
+  padding: 11px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: background 0.15s;
+  font-family: inherit;
+}
+
+.btn-submit:hover    { background: #333; }
+.btn-submit:disabled { background: #aaa; cursor: not-allowed; }
+
+.error-msg {
+  background: #faece7;
+  color: #993c1d;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.success-msg {
+  background: #eaf3de;
+  color: #3b6d11;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.switch-text {
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+  margin-top: 16px;
+}
+
+.switch-text span {
+  color: #111;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.switch-text span:hover { color: #333; }

@@ -1,45 +1,54 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-
-export interface DietPlan {
-  id: number;
-  name: string;
-  nameTh: string;
-  icon: string;
-  category: 'weight-loss' | 'muscle-gain' | 'maintenance';
-  calories: number;
-  duration: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { DietPlan, DietplansService } from '../../services/dietplans.service';
 
 @Component({
   selector: 'app-dietplans',
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './dietplans.html',
-  styleUrls: ['./dietplans.css']
+  styleUrl: './dietplans.css'
 })
 export class DietplansComponent implements OnInit {
-  username = 'diddy';
+  username = '';
   activeTab: 'all' | 'weight-loss' | 'muscle-gain' | 'maintenance' = 'all';
+  dietPlans: DietPlan[] = [];
+  isLoading = true;
+  errorMsg = '';
 
-  dietPlans: DietPlan[] = [
-    { id: 1, name: 'Keto Diet',         nameTh: 'คีโต',                icon: '🥑', category: 'weight-loss',  calories: 1500, duration: '4 weeks' },
-    { id: 2, name: 'High Protein',      nameTh: 'โปรตีนสูง',           icon: '🍗', category: 'muscle-gain',  calories: 2800, duration: '8 weeks' },
-    { id: 3, name: 'Balanced Diet',     nameTh: 'สมดุล',               icon: '🥗', category: 'maintenance',  calories: 2000, duration: '12 weeks' },
-    { id: 4, name: 'Intermittent Fast', nameTh: 'อดอาหารช่วง',         icon: '⏱️', category: 'weight-loss',  calories: 1800, duration: '6 weeks' },
-    { id: 5, name: 'Bulk Plan',         nameTh: 'เพิ่มมวลกล้ามเนื้อ',  icon: '💪', category: 'muscle-gain',  calories: 3200, duration: '10 weeks' },
-    { id: 6, name: 'Clean Eating',      nameTh: 'กินคลีน',             icon: '🥦', category: 'maintenance',  calories: 2100, duration: '8 weeks' },
-  ];
+  constructor(
+    private dietplansService: DietplansService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   get filteredPlans(): DietPlan[] {
     if (this.activeTab === 'all') return this.dietPlans;
     return this.dietPlans.filter(p => p.category === this.activeTab);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.username = this.authService.getUser()?.username || 'Guest';
+    this.loadDietPlans();
+  }
+
+  loadDietPlans(): void {
+    this.isLoading = true;
+    this.errorMsg = '';
+    this.dietplansService.getAll().subscribe({
+      next: (data) => { this.dietPlans = data; this.isLoading = false; },
+      error: () => { this.errorMsg = 'Failed to load diet plans'; this.isLoading = false; }
+    });
+  }
 
   setTab(tab: 'all' | 'weight-loss' | 'muscle-gain' | 'maintenance'): void {
     this.activeTab = tab;
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

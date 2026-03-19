@@ -2,21 +2,12 @@
   <aside class="sidebar">
     <h2 class="logo">time<span>2</span>book.me</h2>
     <ul class="menu">
-      <li routerLink="/schedule" routerLinkActive="active">
-        <span class="menu-icon">📅</span> My Schedule
-      </li>
-      <li routerLink="/passes" routerLinkActive="active">
-        <span class="menu-icon">🎟️</span> My passes
-      </li>
-      <li routerLink="/equipment" routerLinkActive="active">
-        <span class="menu-icon">🏋️</span> Equipment
-      </li>
-      <li routerLink="/dietplans" routerLinkActive="active">
-        <span class="menu-icon">🥗</span> Diet Plans
-      </li>
-      <li routerLink="/settings" routerLinkActive="active">
-        <span class="menu-icon">⚙️</span> Settings
-      </li>
+      <li routerLink="/schedule"        routerLinkActive="active"><span class="menu-icon">📅</span> My Schedule</li>
+      <li routerLink="/passes"          routerLinkActive="active"><span class="menu-icon">🎟️</span> My passes</li>
+      <li routerLink="/equipment"       routerLinkActive="active"><span class="menu-icon">🏋️</span> Equipment</li>
+      <li routerLink="/dietplans"       routerLinkActive="active"><span class="menu-icon">🥗</span> Diet Plans</li>
+      <li routerLink="/progressreports" routerLinkActive="active"><span class="menu-icon">📊</span> Progress Reports</li>
+      <li routerLink="/settings"        routerLinkActive="active"><span class="menu-icon">⚙️</span> Settings</li>
     </ul>
     <div style="flex:1;"></div>
     <div class="divider"></div>
@@ -34,34 +25,30 @@
     </div>
 
     <div class="tabs">
-      <button
-        [class.active]="activeTab === 'upcoming'"
-        (click)="setTab('upcoming')">
-        Upcoming
-      </button>
-      <button
-        [class.active]="activeTab === 'past'"
-        (click)="setTab('past')">
-        Past
-      </button>
+      <button [class.active]="activeTab === 'upcoming'" (click)="setTab('upcoming')">Upcoming</button>
+      <button [class.active]="activeTab === 'past'"     (click)="setTab('past')">Past</button>
     </div>
 
-    <div class="empty-area" *ngIf="filteredBookings.length === 0">
-      <div class="empty-icon">📅</div>
-      <p class="empty-title">No bookings</p>
-      <p class="empty-sub">You have no bookings. Your bookings will show up here.</p>
-      <div class="view-card">
-        <div class="avatar-sm" style="width:30px;height:30px;font-size:14px;">👤</div>
-        <span class="view-card-name">{{ username }}</span>
-        <button class="view-btn" (click)="viewSchedule()">View schedule ↗</button>
+    @if (filteredBookings.length === 0) {
+      <div class="empty-area">
+        <div class="empty-icon">📅</div>
+        <p class="empty-title">No bookings</p>
+        <p class="empty-sub">You have no bookings. Your bookings will show up here.</p>
+        <div class="view-card">
+          <div class="avatar-sm" style="width:30px;height:30px;font-size:14px;">👤</div>
+          <span class="view-card-name">{{ username }}</span>
+          <button class="view-btn" (click)="viewSchedule()">View schedule ↗</button>
+        </div>
       </div>
-    </div>
-
-    <div *ngIf="filteredBookings.length > 0">
-      <div class="booking-card" *ngFor="let booking of filteredBookings">
-        <p class="booking-title">{{ booking.title }}</p>
-        <p class="booking-meta">{{ booking.date }} · {{ booking.time }}</p>
+    } @else {
+      <div class="booking-list">
+        @for (booking of filteredBookings; track booking.id) {
+          <div class="booking-card">
+            <p class="booking-title">{{ booking.title }}</p>
+            <p class="booking-meta">{{ booking.date }} · {{ booking.time }}</p>
+          </div>
+        }
       </div>
-    </div>
+    }
   </main>
 </div>

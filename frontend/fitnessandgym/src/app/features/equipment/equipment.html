@@ -1,7 +1,6 @@
 <div class="layout">
   <aside class="sidebar">
     <h2 class="logo">time<span>2</span>book.me</h2>
-
     <ul class="menu">
       <li routerLink="/schedule"        routerLinkActive="active"><span class="icon">📅</span> My Schedule</li>
       <li routerLink="/passes"          routerLinkActive="active"><span class="icon">🎟️</span> My passes</li>
@@ -10,12 +9,13 @@
       <li routerLink="/progressreports" routerLinkActive="active"><span class="icon">📊</span> Progress Reports</li>
       <li routerLink="/settings"        routerLinkActive="active"><span class="icon">⚙️</span> Settings</li>
     </ul>
-
-    <div class="user">
+    <div style="flex:1;"></div>
+    <div class="divider"></div>
+    <div class="user" routerLink="/profile" style="cursor:pointer;">
       <span class="user-avatar">👤</span>
       <p>{{ username }}</p>
     </div>
-
+    <div class="logout" (click)="logout()">🚪 Logout</div>
     <div class="refer">❤️ Refer &amp; earn</div>
   </aside>
 
@@ -31,25 +31,31 @@
       <button [class.active]="activeTab === 'inuse'"     (click)="setTab('inuse')">In use</button>
     </div>
 
-    <div class="equipment-grid" *ngIf="filteredEquipment.length > 0; else emptyState">
-      <div class="equipment-card" *ngFor="let item of filteredEquipment">
-        <div class="eq-icon">{{ item.icon }}</div>
-        <p class="eq-name">{{ item.name }}</p>
-        <p class="eq-name-th">{{ item.nameTh }}</p>
-        <span class="eq-status"
-          [class.available]="item.status === 'available'"
-          [class.inuse]="item.status === 'inuse'">
-          {{ item.status === 'available' ? 'Available' : 'In use' }}
-        </span>
+    @if (isLoading) {
+      <div class="empty">
+        <p>Loading...</p>
       </div>
-    </div>
-
-    <ng-template #emptyState>
+    } @else if (filteredEquipment.length > 0) {
+      <div class="equipment-grid">
+        @for (item of filteredEquipment; track item.id) {
+          <div class="equipment-card">
+            <div class="eq-icon">{{ item.icon }}</div>
+            <p class="eq-name">{{ item.name }}</p>
+            <p class="eq-name-th">{{ item.name_th }}</p>
+            <span class="eq-status"
+              [class.available]="item.status === 'available'"
+              [class.inuse]="item.status === 'inuse'">
+              {{ item.status === 'available' ? 'Available' : 'In use' }}
+            </span>
+          </div>
+        }
+      </div>
+    } @else {
       <div class="empty">
         <div class="icon">📅</div>
         <h2>No equipment found</h2>
         <p>No equipment matches the selected filter.</p>
       </div>
-    </ng-template>
+    }
   </main>
 </div>

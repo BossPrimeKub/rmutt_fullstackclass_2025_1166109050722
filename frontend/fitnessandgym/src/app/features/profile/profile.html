@@ -1,0 +1,46 @@
+<div class="layout">
+  <aside class="sidebar">
+    <h2 class="logo">time<span>2</span>book.me</h2>
+    <ul class="menu">
+      <li routerLink="/schedule"        routerLinkActive="active"><span class="icon">📅</span> My Schedule</li>
+      <li routerLink="/passes"          routerLinkActive="active"><span class="icon">🎟️</span> My passes</li>
+      <li routerLink="/equipment"       routerLinkActive="active"><span class="icon">🏋️</span> Equipment</li>
+      <li routerLink="/dietplans"       routerLinkActive="active"><span class="icon">🥗</span> Diet Plans</li>
+      <li routerLink="/progressreports" routerLinkActive="active"><span class="icon">📊</span> Progress Reports</li>
+      <li routerLink="/settings"        routerLinkActive="active"><span class="icon">⚙️</span> Settings</li>
+    </ul>
+    <div class="user" routerLink="/profile" style="cursor:pointer;">
+      <span class="user-avatar">👤</span>
+      <p>{{ user?.username || 'Loading...' }}</p>
+    </div>
+    <div class="logout" (click)="logout()">🚪 Logout</div>
+    <div class="refer">❤️ Refer &amp; earn</div>
+  </aside>
+
+  <main class="content">
+    <div class="header">
+      <h1>Profile</h1>
+      <div class="bell">🔔</div>
+    </div>
+
+    <div class="loading" *ngIf="isLoading">Loading...</div>
+
+    <div class="profile-card" *ngIf="!isLoading && user">
+      <div class="avatar">{{ user.username?.charAt(0).toUpperCase() }}</div>
+      <div class="profile-info">
+        <div class="info-row">
+          <span class="label">Username</span>
+          <span class="value">{{ user.username }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Email</span>
+          <span class="value">{{ user.email }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Member since</span>
+          <span class="value">{{ user.created_at | date:'dd MMM yyyy' }}</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
