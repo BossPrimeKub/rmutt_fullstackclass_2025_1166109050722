@@ -1,0 +1,62 @@
+<div class="layout">
+  <aside class="sidebar">
+    <h2 class="logo">time<span>2</span>book.me</h2>
+
+    <ul class="menu">
+      <li routerLink="/schedule"        routerLinkActive="active"><span class="icon">📅</span> My Schedule</li>
+      <li routerLink="/passes"          routerLinkActive="active"><span class="icon">🎟️</span> My passes</li>
+      <li routerLink="/equipment"       routerLinkActive="active"><span class="icon">🏋️</span> Equipment</li>
+      <li routerLink="/dietplans"       routerLinkActive="active"><span class="icon">🥗</span> Diet Plans<span class="badge">{{ dietPlans.length }}</span></li>
+      <li routerLink="/progressreports" routerLinkActive="active"><span class="icon">📊</span> Progress Reports</li>
+      <li routerLink="/settings"        routerLinkActive="active"><span class="icon">⚙️</span> Settings</li>
+    </ul>
+
+    <div class="user">
+      <span class="user-avatar">👤</span>
+      <p>{{ username }}</p>
+    </div>
+
+    <div class="refer">❤️ Refer &amp; earn</div>
+  </aside>
+
+  <main class="content">
+    <div class="header">
+      <h1>Diet Plans</h1>
+      <div class="bell">🔔</div>
+    </div>
+
+    <div class="tabs">
+      <button [class.active]="activeTab === 'all'"         (click)="setTab('all')">All</button>
+      <button [class.active]="activeTab === 'weight-loss'" (click)="setTab('weight-loss')">Weight Loss</button>
+      <button [class.active]="activeTab === 'muscle-gain'" (click)="setTab('muscle-gain')">Muscle Gain</button>
+      <button [class.active]="activeTab === 'maintenance'" (click)="setTab('maintenance')">Maintenance</button>
+    </div>
+
+    <div class="diet-grid" *ngIf="filteredPlans.length > 0; else emptyState">
+      <div class="diet-card" *ngFor="let plan of filteredPlans">
+        <div class="diet-icon">{{ plan.icon }}</div>
+        <p class="diet-name">{{ plan.name }}</p>
+        <p class="diet-name-th">{{ plan.nameTh }}</p>
+        <div class="diet-info">
+          <span class="info-item">🔥 {{ plan.calories }} kcal</span>
+          <span class="info-item">📆 {{ plan.duration }}</span>
+        </div>
+        <span class="diet-tag"
+          [class.weight-loss]="plan.category === 'weight-loss'"
+          [class.muscle-gain]="plan.category === 'muscle-gain'"
+          [class.maintenance]="plan.category === 'maintenance'">
+          {{ plan.category === 'weight-loss' ? 'Weight Loss' :
+             plan.category === 'muscle-gain' ? 'Muscle Gain' : 'Maintenance' }}
+        </span>
+      </div>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="empty">
+        <div class="icon">🥗</div>
+        <h2>No diet plans found</h2>
+        <p>No plans match the selected category.</p>
+      </div>
+    </ng-template>
+  </main>
+</div>
