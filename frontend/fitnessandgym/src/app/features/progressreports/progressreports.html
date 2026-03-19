@@ -1,0 +1,64 @@
+<div class="layout">
+  <aside class="sidebar">
+    <h2 class="logo">time<span>2</span>book.me</h2>
+
+    <ul class="menu">
+      <li routerLink="/schedule"        routerLinkActive="active"><span class="icon">📅</span> My Schedule</li>
+      <li routerLink="/passes"          routerLinkActive="active"><span class="icon">🎟️</span> My passes</li>
+      <li routerLink="/equipment"       routerLinkActive="active"><span class="icon">🏋️</span> Equipment</li>
+      <li routerLink="/dietplans"       routerLinkActive="active"><span class="icon">🥗</span> Diet Plans</li>
+      <li routerLink="/progressreports" routerLinkActive="active">
+        <span class="icon">📊</span> Progress Reports
+        <span class="badge">{{ reports.length }}</span>
+      </li>
+      <li routerLink="/settings"        routerLinkActive="active"><span class="icon">⚙️</span> Settings</li>
+    </ul>
+
+    <div class="user">
+      <span class="user-avatar">👤</span>
+      <p>{{ username }}</p>
+    </div>
+
+    <div class="refer">❤️ Refer &amp; earn</div>
+  </aside>
+
+  <main class="content">
+    <div class="header">
+      <h1>Progress Reports</h1>
+      <div class="bell">🔔</div>
+    </div>
+
+    <div class="tabs">
+      <button [class.active]="activeTab === 'all'"       (click)="setTab('all')">All</button>
+      <button [class.active]="activeTab === 'fitness'"   (click)="setTab('fitness')">Fitness</button>
+      <button [class.active]="activeTab === 'nutrition'" (click)="setTab('nutrition')">Nutrition</button>
+      <button [class.active]="activeTab === 'body'"      (click)="setTab('body')">Body</button>
+    </div>
+
+    <div class="report-grid" *ngIf="filteredReports.length > 0; else emptyState">
+      <div class="report-card" *ngFor="let report of filteredReports">
+        <div class="report-top">
+          <div class="report-icon">{{ report.icon }}</div>
+          <span class="trend-badge"
+            [class.up]="report.trend === 'up'"
+            [class.down]="report.trend === 'down'"
+            [class.stable]="report.trend === 'stable'">
+            {{ getTrendLabel(report.trend) }}
+          </span>
+        </div>
+        <p class="report-value">{{ report.value }} <span class="unit">{{ report.unit }}</span></p>
+        <p class="report-name">{{ report.title }}</p>
+        <p class="report-name-th">{{ report.titleTh }}</p>
+        <p class="report-date">{{ report.date }}</p>
+      </div>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="empty">
+        <div class="icon">📊</div>
+        <h2>No reports found</h2>
+        <p>No progress data available yet.</p>
+      </div>
+    </ng-template>
+  </main>
+</div>

@@ -1,0 +1,55 @@
+<div class="layout">
+  <aside class="sidebar">
+    <h2 class="logo">time<span>2</span>book.me</h2>
+
+    <ul class="menu">
+      <li routerLink="/schedule"        routerLinkActive="active"><span class="icon">📅</span> My Schedule</li>
+      <li routerLink="/passes"          routerLinkActive="active"><span class="icon">🎟️</span> My passes</li>
+      <li routerLink="/equipment"       routerLinkActive="active"><span class="icon">🏋️</span> Equipment<span class="badge">{{ equipmentList.length }}</span></li>
+      <li routerLink="/dietplans"       routerLinkActive="active"><span class="icon">🥗</span> Diet Plans</li>
+      <li routerLink="/progressreports" routerLinkActive="active"><span class="icon">📊</span> Progress Reports</li>
+      <li routerLink="/settings"        routerLinkActive="active"><span class="icon">⚙️</span> Settings</li>
+    </ul>
+
+    <div class="user">
+      <span class="user-avatar">👤</span>
+      <p>{{ username }}</p>
+    </div>
+
+    <div class="refer">❤️ Refer &amp; earn</div>
+  </aside>
+
+  <main class="content">
+    <div class="header">
+      <h1>Equipment</h1>
+      <div class="bell">🔔</div>
+    </div>
+
+    <div class="tabs">
+      <button [class.active]="activeTab === 'all'"       (click)="setTab('all')">All</button>
+      <button [class.active]="activeTab === 'available'" (click)="setTab('available')">Available</button>
+      <button [class.active]="activeTab === 'inuse'"     (click)="setTab('inuse')">In use</button>
+    </div>
+
+    <div class="equipment-grid" *ngIf="filteredEquipment.length > 0; else emptyState">
+      <div class="equipment-card" *ngFor="let item of filteredEquipment">
+        <div class="eq-icon">{{ item.icon }}</div>
+        <p class="eq-name">{{ item.name }}</p>
+        <p class="eq-name-th">{{ item.nameTh }}</p>
+        <span class="eq-status"
+          [class.available]="item.status === 'available'"
+          [class.inuse]="item.status === 'inuse'">
+          {{ item.status === 'available' ? 'Available' : 'In use' }}
+        </span>
+      </div>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="empty">
+        <div class="icon">📅</div>
+        <h2>No equipment found</h2>
+        <p>No equipment matches the selected filter.</p>
+      </div>
+    </ng-template>
+  </main>
+</div>
